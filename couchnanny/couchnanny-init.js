@@ -1,5 +1,5 @@
 let Couch = require("node-couchdb")
-let program = require("commander");
+let program = require("commander")
 let config = require("../config.json").couchdb || {}
 
 program.parse(process.argv)
