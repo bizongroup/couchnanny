@@ -10,6 +10,8 @@ let program = require("commander")
 let commands = {
   "login <username> <password>":
     "Define CouchDB admin account. This one is needed to perform any other operation, unless you're in admin party mode.",
+  "init":
+    "Create _global_changes, _metadata, _replicator and _users.",
   "backup [message]":
     "Backup the entire database (all files, settings and logs) into specified Git repository. The repository must be specified at config.json.",
   "restore [options] [commit]":
