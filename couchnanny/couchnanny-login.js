@@ -13,10 +13,6 @@ let db = new Couch({
   }
 })
 
-console.log(db)
-
 db.listDatabases().then(function (dbs) {
-  console.log(dbs)
-}, function (err) {
-  console.log(err)
-})
+  console.log(dbs.error ? dbs.reason : "Successfully logged in.")
+});
