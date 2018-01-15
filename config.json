@@ -4,6 +4,7 @@
     "post": "5984"
   },
   "repo": {
-    "folder": "./repo"
+    "folder": "./repo",
+    "source": "https://34ceaaca344ff27fbc61b56c771047406e2ef751@github.com/uyouthe/bizon-backup.git"
   }
 }

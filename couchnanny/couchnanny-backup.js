@@ -1,8 +1,16 @@
 const fs = require('fs')
 const path = require('path')
-const config = require('../config.json')
+const url = require('url')
+let config;
 
-const repoPath = path.join(__dirname, config.repo.folder)
+try {
+  config = require('../config.json').repo
+} catch (e) {
+  throw new Error("Backup target repository isn't specified")
+}
+
+const repoPath = path.join(__dirname, config.folder)
+const repoURL = config.source
 
 if (!fs.existsSync(repoPath)) {
   fs.mkdirSync(repoPath)
@@ -24,6 +32,5 @@ module.exports = function (db, message) {
 }
 
 function initialiseRepo (git) {
-  // return git.init().exec(() => git.addRemote('origin', 'https://some.git.repo'))
-  return git.init().exec()
+  return git.init().exec(() => git.addRemote('origin', repoURL))
 }
