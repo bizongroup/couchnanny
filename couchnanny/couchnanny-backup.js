@@ -1,18 +1,21 @@
 const fs = require('fs')
+const path = require('path')
 const config = require('../config.json')
 
-if (!fs.existsSync(config.repo.folder)) {
-  fs.mkdirSync(config.repo.folder)
+const repoPath = path.join(__dirname, config.repo.folder)
+
+if (!fs.existsSync(repoPath)) {
+  fs.mkdirSync(repoPath)
 }
 
-const git = require('simple-git')(config.repo.folder)
+const git = require('simple-git')(repoPath)
 
 module.exports = function (db, message) {
   // check if valid git repository
 
   git.checkIsRepo()
-     .then(isRepo => !isRepo && initialiseRepo(git))
-     .then(() => git.fetch())
+     .exec(isRepo => !isRepo && initialiseRepo(git))
+     .exec(() => git.fetch())
 
 
   // clone
@@ -21,6 +24,6 @@ module.exports = function (db, message) {
 }
 
 function initialiseRepo (git) {
-  // return git.init().then(() => git.addRemote('origin', 'https://some.git.repo'))
-  return git.init().then()
+  // return git.init().exec(() => git.addRemote('origin', 'https://some.git.repo'))
+  return git.init().exec()
 }

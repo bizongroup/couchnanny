@@ -13,8 +13,8 @@ let log = []
 let db = null
 
 
-askPassword()
-
+//askPassword()
+ui();
 
 function askPassword() {
   inquirer.prompt([
