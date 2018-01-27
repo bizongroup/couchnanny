@@ -14,7 +14,11 @@ let db = null
 
 
 //askPassword()
-ui();
+//ui();
+
+const backup = require("./couchnanny-backup")
+
+backup();
 
 function askPassword() {
   inquirer.prompt([

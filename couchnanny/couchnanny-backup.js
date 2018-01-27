@@ -1,14 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const url = require('url')
-let config;
-
-try {
-  config = require('../config.json').repo
-} catch (e) {
-  throw new Error("Backup target repository isn't specified")
-}
-
+const config = require('../config.json').repo
 const repoPath = path.join(__dirname, config.folder)
 const repoURL = config.source
 
@@ -21,10 +14,13 @@ const git = require('simple-git')(repoPath)
 module.exports = function (db, message) {
   // check if valid git repository
 
-  git.checkIsRepo()
-     .exec(isRepo => !isRepo && initialiseRepo(git))
-     .exec(() => git.fetch())
+  // git.checkIsRepo()
+  //    .exec(isRepo => !isRepo && initialiseRepo(git))
+  //    .exec(() => git.fetch())
 
+  git.status(function (err, response) {
+    console.log(err, response)
+  });
 
   // clone
   // write files
