@@ -12,22 +12,20 @@ if (!fs.existsSync(repoPath)) {
 
 const git = require('simple-git')(repoPath)
 
-function getFile(dataName) {
+function _getFile(dataName) {
     var temp = nano.use(dataName);
     temp.list(function(err, body) {
         if (!err) {
             body.rows.forEach(function(doc) {
-                console.log(doc)
-                var tempStr = doc + JSON.stringify(doc);
-                //console.log(tempStr)
-                
-                fs.writeFile("./repo/"+dataName+".json", tempStr, 'utf-8', function(err) {
-                    if (err) {
-                        return console.log(err);
-                    }
+
+                var tempStr = JSON.stringify(doc);
+                fs.appendFile("./repo/" + dataName + ".json", tempStr, (err) => {
+                    if (err) throw err;
+                    console.log(tempStr)
+                    //console.log('The file has been saved!');
                 });
-                
-                
+
+
             });
         }
     });
@@ -36,10 +34,10 @@ function getFile(dataName) {
 module.exports = function(db, message) {
 
     // call function for create text files of our databases    
-    getFile('_global_changes')
-    getFile('_users')
-    getFile('_replicator')
-    getFile('_metadata')
+    _getFile('_global_changes')
+    _getFile('_users')
+    _getFile('_replicator')
+    _getFile('_metadata')
 
 
     // check if valid git repository
