@@ -1,10 +1,9 @@
-let Couch = require("node-couchdb")
+let nano = require('nano')('http://admin:admin@localhost:5984');
+module.exports = function(db) {
 
-module.exports = function (db) {
-  db.createDatabase("_global_changes").then().catch(function () {})
-  db.createDatabase("_metadata").then().catch(function () {})
-  db.createDatabase("_replicator").then().catch(function () {})
-  db.createDatabase("_users").then().catch(function () {})
+    nano.db.create('_global_changes', function() {})
+    nano.db.create('_metadata', function() {})
+    nano.db.create('_replicator', function() {})
+    nano.db.create('_users', function() {})
 
-  return "Database have been successfully initialized."
 }
