@@ -11,14 +11,15 @@ let config = require("../config.json").couchdb || {}
 let log = []
 let db = null
 
+const restore = require("./couchnanny-restore")
 const backup = require("./couchnanny-backup")
 const init = require("./couchnanny-init")
 
 
 //askPassword()
 //ui();
-
 backup();
+//restore();
 init();
 
 function askPassword() {
