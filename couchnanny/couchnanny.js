@@ -18,9 +18,9 @@ const init = require("./couchnanny-init")
 
 //askPassword()
 //ui();
-backup();
-//restore();
-init();
+//backup();
+restore();
+//init();
 
 function askPassword() {
     inquirer.prompt([{
@@ -71,15 +71,12 @@ function ui() {
         name: 'action',
         message: log.join('\n') + '\n\nWhat do you want to do?',
         choices: [
-            'init',
-            new inquirer.Separator(),
+            'Init database',
             'Backup database',
-            'Set backup schedule',
-
             'Restore backup'
         ]
     }]).then(answers => {
-        log.push(react(answers.action, db))
+        log.push(react(answers.action))
         ui()
     })
 }

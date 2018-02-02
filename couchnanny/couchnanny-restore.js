@@ -6,16 +6,35 @@ const repoPath = path.join(__dirname, config.folder)
 const repoURL = config.source
 let nano = require('nano')('http://admin:admin@localhost:5984');
 
-module.exports = function(db, message) {
 
-    // call function for create text files of our databases  
-    //var config = require('./repo/_users.json');
+function _getData(dataName) {
 
-    var obj1 = fs.readFileSync('./repo/_replicator.json', 'utf8'); 
-    obj1  = JSON.parse(obj1)
-    for (i = 0; i < 6; i++){
-        console.log(obj1)
+    var obj = fs.readFileSync('./repo/' + dataName + '.json', 'utf8');
+    var db = nano.use(dataName);
+    obj1 = JSON.parse(obj);
+
+    try {
+        var tempObj = obj1.dataName;
+        var tmp = obj1[dataName];
+        var i = Object.keys(tmp)
+
+        for (j = 0; j <= i.length; j++) {
+            console.log(tmp[j].id)
+            db.insert({
+                _id: tmp[j].id,
+            }, (err, body) => {
+                if (!err)
+                    console.log(body)
+            })
+        }
+    } catch (e) {
+        //console.log("catch");
     }
-    //console.log(config.id + ' ' + config.key);
+}
 
+module.exports = function(db, message) {
+    _getData('_global_changes');
+    _getData('_users');
+    _getData('_replicator');
+    _getData('_metadata');
 }
