@@ -3,9 +3,10 @@
 ## _Caution: work in progress!_  
 
  - (Done) ~~Database initialization~~
- - Backup
- - Restore
+ - (Done) ~~Backup~~
+ - (Done) ~~Restore~~
  - Scheduled backups
+ - Connect with Github
 
 ![Couchnanny logo](https://bizongroup.github.io/couchnanny/baby.svg)
 

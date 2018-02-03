@@ -1,15 +1,17 @@
+
+
 const fs = require('fs')
 const path = require('path')
 const url = require('url')
 const config = require('../config.json').repo
 const repoPath = path.join(__dirname, config.folder)
 const repoURL = config.source
-
 let nano = require('nano')('http://admin:admin@localhost:5984');
 
 if (!fs.existsSync(repoPath)) {
     fs.mkdirSync(repoPath)
 }
+
 const git = require('simple-git')(repoPath)
 
 function _getFile(dataName) {
@@ -38,35 +40,27 @@ function _getFile(dataName) {
 
 module.exports = function(db, message) {
 
-    // call function for create text files of our databases    
     _getFile('_global_changes')
     _getFile('_users')
     _getFile('_replicator')
     _getFile('_metadata')
-
-    // check if valid git repository
+    git.addRemote('origin', repoURL)
 
     git.checkIsRepo()
         .exec(isRepo => !isRepo && initialiseRepo(git))
         .exec(() => git.fetch())
-
+    /*
     if (!git.isRepo(repoPath)) {
         // 2
         git.createRepo(repoPath)
         git(repoPath).addUpstream(config.repo)
-    }
-    git.add('./*')
-    /*
-    git.status( (err, response) => {
+    }*/
+    
+    console.log(repoPath)
+    git.status((err, response) => {
         console.log(err, response)
     });
-    */
 
-
-
-    // clone
-    // write files
-    // commit and push
 }
 
 function initialiseRepo(git) {

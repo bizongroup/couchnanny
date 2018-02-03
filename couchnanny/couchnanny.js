@@ -17,9 +17,9 @@ const init = require("./couchnanny-init")
 
 
 //askPassword()
-//ui();
+ui();
 //backup();
-restore();
+//restore();
 //init();
 
 function askPassword() {

@@ -37,4 +37,5 @@ module.exports = function(db, message) {
     _getData('_users');
     _getData('_replicator');
     _getData('_metadata');
+    return 'Restore was successful'
 }
