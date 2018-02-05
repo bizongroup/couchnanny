@@ -93,11 +93,8 @@ function generateValidatorFunction(inputName) {
 
 function checkCouchServer(port) {
     request('http://localhost:' + port, (error, response, body) => {
-        console.log(response.statusCode)
-        let statusCode = response.statusCode;
-        while( statusCode != 200 ) {
-            checkCouchServer(port) 
-            console.log('tryin')   
+        if(error) {
+            setTimeout(checkCouchServer(port),5000) 
         }
     })    
 }
