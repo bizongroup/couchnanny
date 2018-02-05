@@ -28,7 +28,9 @@
   "dependencies": {
     "http-monitor": "^0.3.5",
     "inquirer": "^5.0.0",
+    "nano": "^6.4.2",
     "node-couchdb": "^1.2.0",
+    "request": "^2.83.0",
     "simple-git": "^1.85.0"
   }
 }

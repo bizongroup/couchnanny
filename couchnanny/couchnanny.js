@@ -6,8 +6,9 @@
 
 
 let inquirer = require("inquirer")
+let request = require("request")
 let react = require("./core")
-let config = require("../config.json").couchdb || {}
+let config = require("../config.json")
 let log = []
 let db = null
 
@@ -15,9 +16,9 @@ const restore = require("./couchnanny-restore")
 const backup = require("./couchnanny-backup")
 const init = require("./couchnanny-init")
 
-
-//askPassword()
-ui();
+checkCouchServer(config.couchdb.port);
+//askPassword();
+//ui();
 //backup();
 //restore();
 //init();
@@ -88,4 +89,15 @@ function generateValidatorFunction(inputName) {
         }
         return inputName + ' need to have at least one symbol'
     }
+}
+
+function checkCouchServer(port) {
+    request('http://localhost:' + port, (error, response, body) => {
+        console.log(response.statusCode)
+        let statusCode = response.statusCode;
+        while( statusCode != 200 ) {
+            checkCouchServer(port) 
+            console.log('tryin')   
+        }
+    })    
 }
