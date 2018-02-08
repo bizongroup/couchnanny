@@ -1,69 +1,16 @@
 #!/usr/bin/env node
 
-// DONE init database
-// 2. Backup to specified repository
-// 3. Restore
-
-
 let inquirer = require("inquirer")
 let request = require("request")
 let react = require("./core")
-let config = require("../config.json")
+let config = require("../config.json").couchdb
+
 let log = []
-let db = null
 
 const restore = require("./couchnanny-restore")
 const backup = require("./couchnanny-backup")
 const init = require("./couchnanny-init")
 
-checkCouchServer(config.couchdb.port);
-//askPassword();
-//ui();
-//backup();
-//restore();
-//init();
-
-function askPassword() {
-    inquirer.prompt([{
-            type: 'input',
-            message: 'Admin',
-            name: 'username',
-            validate: generateValidatorFunction("Username")
-        },
-        {
-            type: 'password',
-            message: 'Admin password:',
-            name: 'password',
-            mask: '*',
-            validate: generateValidatorFunction("Password")
-        }
-    ]).then(function(answers) {
-        db = new Couch({
-            host: config.host || "127.0.0.1",
-            port: config.port || "5984",
-            auth: {
-                user: answers.username,
-                pass: answers.password
-            }
-        })
-
-        db.listDatabases().then(function(dbs) {
-            if (dbs.error) {
-                console.log(dbs.reason)
-                console.log("Please, try again.")
-                askPassword()
-            } else {
-                log.push("Successfully logged in.")
-                log.push(react("init", db))
-                ui()
-            }
-        }).catch(function(reason) {
-            console.log(reason.code)
-            console.log("Please, try again.")
-            askPassword()
-        })
-    })
-}
 
 function ui() {
     console.clear()
@@ -74,7 +21,7 @@ function ui() {
         choices: [
             'Init database',
             'Backup database',
-            'Restore backup'
+            'Restore backup\n'
         ]
     }]).then(answers => {
         log.push(react(answers.action))
@@ -95,6 +42,14 @@ function checkCouchServer(port) {
     request('http://localhost:' + port, (error, response, body) => {
         if(error) {
             setTimeout(checkCouchServer(port),5000) 
+        } else {
+            ui();
         }
     })    
 }
+
+//checkCouchServer(couchdb.port);
+//ui();
+backup();
+//init();
+//restore();

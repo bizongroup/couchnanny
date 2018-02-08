@@ -1,10 +1,12 @@
 {
   "couchdb": {
+  	"login": "admin",
+  	"password": "admin",
     "host": "127.0.0.1",
     "port": "5984"
   },
   "repo": {
-    "folder": "./repo",
-    "source": "https://34ceaaca344ff27fbc61b56c771047406e2ef751@github.com/uyouthe/bizon-backup.git"
+    "folder": "./backuptest/",
+    "source": "https://github.com/DmitryVengerov/backuptest.git"
   }
 }
