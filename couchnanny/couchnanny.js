@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 let inquirer = require("inquirer")
 let request = require("request")
 let react = require("./core")
