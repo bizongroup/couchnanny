@@ -24,10 +24,5 @@ module.exports = function(db) {
 
     });
 
-    nano.db.list(function(err, body) {
-        body.forEach(function(db) {
-            console.log(db);
-        });
-    });
     return 'Init was successful'
 }

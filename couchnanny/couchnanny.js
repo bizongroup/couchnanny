@@ -1,7 +1,6 @@
 let inquirer = require("inquirer")
 let request = require("request")
 let react = require("./core")
-let config = require("../config.json").couchdb
 
 let log = []
 
@@ -48,6 +47,6 @@ function checkCouchServer(port) {
 
 //checkCouchServer(couchdb.port);
 //ui();
-backup();
 //init();
-//restore();
+restore();
+backup();
