@@ -4,11 +4,11 @@ let restore = require("./couchnanny-restore")
 
 module.exports = function (action) {
   switch (action) {
-    case 'Init database':
+    case 'init':
       return init()
-    case 'Backup database':
+    case 'backup':
       return backup();
-    case 'Restore backup':
+    case 'restore':
       return restore();
   }
 }
