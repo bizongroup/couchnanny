@@ -48,5 +48,5 @@ function checkCouchServer(port) {
 //checkCouchServer(couchdb.port);
 //ui();
 //init();
-restore();
-//backup();
+//restore();
+backup();
