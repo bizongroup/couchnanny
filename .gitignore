@@ -9,6 +9,7 @@ yarn-error.log*
 
 # Folders
 /couchnanny/backuptest/
+/backuptest/
 
 # Configs
 /couchdbConfig.json
