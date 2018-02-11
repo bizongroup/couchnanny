@@ -8,7 +8,7 @@ let nano = require('nano')('http://' + couchdbConf.login + ':' + couchdbConf.pas
 let repoDir = config.folder
 let remote = config.source;
 
-function checkRepos() {
+function _checkRepos() {
     if (!fs.existsSync(repoDir)) {
         git().clone(remote).then(() => console.log('finished')).catch((err) => console.error('failed: ', err));
     }
@@ -24,7 +24,7 @@ function _getData(dataName) {
     } catch (e) {}
 }
 
-function readDir(path) {
+function _readDir(path) {
     fs.readdir(path, function(err, items) {
         for (var i = 2; i < items.length; i++) {
             let name = items[i].replace(/\.json$/, '')
@@ -34,7 +34,7 @@ function readDir(path) {
 }
 
 module.exports = function(db) {
-    checkRepos();
-    readDir(repoDir);
+    _checkRepos();
+    _readDir(repoDir);
     return 'Restore was successful'
 }
