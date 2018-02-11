@@ -17,9 +17,6 @@ function checkRepos() {
 function _getData(dataName) {
     let obj = JSON.parse(fs.readFileSync('./backuptest/' + dataName + '.json', 'utf8'));
     let db = nano.use(dataName);
-    //console.log(documents)
-    //console.log(obj[dataName])
-
     try {
         db.bulk({ docs: obj[dataName] }, function(err, body) {
             console.log(body);
@@ -29,7 +26,6 @@ function _getData(dataName) {
 
 function readDir(path) {
     fs.readdir(path, function(err, items) {
-        //console.log(items)
         for (var i = 2; i < items.length; i++) {
             let name = items[i].replace(/\.json$/, '')
             nano.db.create(name, () => _getData(name))
