@@ -49,4 +49,4 @@ function checkCouchServer(port) {
 //ui();
 //init();
 restore();
-backup();
+//backup();
