@@ -1,7 +1,7 @@
 let inquirer = require("inquirer")
 let request = require("request")
 let react = require("./core")
-
+let cron = require('node-cron');
 let log = []
 
 const restore = require("./couchnanny-restore")
@@ -9,29 +9,21 @@ const backup = require("./couchnanny-backup")
 const init = require("./couchnanny-init")
 const couchdbConf = require('../couchdbConfig.json').couchdb
 
-function ui() {
-    console.clear()
-    inquirer.prompt([{
-        type: 'list',
-        name: 'action',
-        message: log.join('\n') + '\n\nWhat do you want to do?',
-        choices: [
-            'Init database',
-            'Backup database',
-            'Restore backup\n'
-        ]
-    }]).then(answers => {
-        log.push(react(answers.action))
-        ui()
-    })
+
+
+function shedule(command) {
+    cron.schedule('* * * * *', function() {
+        react(command);
+    });
 }
 
-function checkCouchServer(port) {
-    request('http://localhost:' + port, (error, response, body) => {
+
+function checkCouchServer(port,command) {
+    request('http://' + couchdbConf.host + ':' + port, (error, response, body) => {
         if (error) {
             setTimeout(checkCouchServer(port), 5000)
         } else {
-            askCommand();
+            shedule(command)
         }
     })
 }
@@ -49,4 +41,4 @@ function askCommand() {
 
 
 
-checkCouchServer(couchdbConf.port);
+checkCouchServer(couchdbConf.port,'backup');

@@ -26,7 +26,7 @@ function _getData(dataName) {
 
 function _readDir(path) {
     fs.readdir(path, function(err, items) {
-        for (var i = 2; i < items.length; i++) {
+        for (var i = 0; i < items.length; i++) {
             let name = items[i].replace(/\.json$/, '')
             nano.db.create(name, () => _getData(name))
         };
