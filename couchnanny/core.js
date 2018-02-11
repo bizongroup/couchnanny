@@ -1,15 +1,14 @@
-let init = require("./couchnanny-init")
-let backup = require("./couchnanny-backup")
+let init = require('./couchnanny-init')
+let backup = require('./couchnanny-backup')
+let restore = require('./couchnanny-restore')
 
-module.exports = function (action, db) {
+module.exports = function (action) {
   switch (action) {
     case 'init':
-      return init(db)
-    case 'Backup database':
-      return backup(db);
-    case 'Set backup schedule':
-      break;
-    case 'Restore backup':
-      break;
+      return init()
+    case 'backup':
+      return backup()
+    case 'restore':
+      return restore()
   }
 }

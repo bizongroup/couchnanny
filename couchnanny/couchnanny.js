@@ -1,93 +1,39 @@
-#!/usr/bin/env node
-
-// DONE init database
-// 2. Backup to specified repository
-// 3. Restore
-
-let Couch = require("node-couchdb")
-let inquirer = require("inquirer")
-let react = require("./core")
-let config = require("../config.json").couchdb || {}
+let inquirer = require('inquirer')
+let request = require('request')
+let react = require('./core')
+let cron = require('node-cron')
 let log = []
 
-let db = null
+const restore = require('./couchnanny-restore')
+const backup = require('./couchnanny-backup')
+const init = require('./couchnanny-init')
+const couchdbConf = require('../couchdbConfig.json').couchdb
 
-
-//askPassword()
-//ui();
-
-const backup = require("./couchnanny-backup")
-
-backup();
-
-function askPassword() {
-  inquirer.prompt([
-    {
-      type: 'input',
-      message: 'Admin username:',
-      name: 'username',
-      validate: generateValidatorFunction("Username")
-    },
-    {
-      type: 'password',
-      message: 'Admin password:',
-      name: 'password',
-      mask: '*',
-      validate: generateValidatorFunction("Password")
-    }
-  ]).then(function (answers) {
-    db = new Couch({
-      host: config.host || "127.0.0.1",
-      port: config.port || "5984",
-      auth: {
-        user: answers.username,
-        pass: answers.password
-      }
-    })
-
-    db.listDatabases().then(function (dbs) {
-      if (dbs.error) {
-        console.log(dbs.reason)
-        console.log("Please, try again.")
-        askPassword()
-      } else {
-        log.push("Successfully logged in.")
-        log.push(react("init", db))
-        ui()
-      }
-    }).catch(function (reason) {
-      console.log(reason.code)
-      console.log("Please, try again.")
-      askPassword()
-    })
+function shedule (command) {
+  cron.schedule('* * * * *', function () {
+    react(command)
   })
 }
 
-function ui() {
-  console.clear()
-  inquirer.prompt([
-    {
-      type: 'list',
-      name: 'action',
-      message: log.join('\n') + '\n\nWhat do you want to do?',
-      choices: [
-        'Backup database',
-        'Set backup schedule',
-        new inquirer.Separator(),
-        'Restore backup'
-      ]
+function checkCouchServer (port, command) {
+  request('http://' + couchdbConf.host + ':' + port, (error, response, body) => {
+    if (error) {
+      setTimeout(checkCouchServer(port), 5000)
+    } else {
+      shedule(command)
     }
-  ]).then(answers => {
-    log.push(react(answers.action, db))
-    ui()
   })
 }
 
-function generateValidatorFunction(inputName) {
-  return function (value) {
-    if (/\w/.test(value)) {
-      return true
-    }
-    return inputName + ' need to have at least one symbol'
-  }
+function askCommand () {
+  inquirer.prompt([{
+    type: 'input',
+    message: 'Await your command:',
+    name: 'Command'
+  }]).then((answers) => {
+    log.push(react(answers.Command))
+    askCommand()
+  })
 }
+
+checkCouchServer(couchdbConf.port, 'backup')

@@ -1,9 +1,18 @@
-# Logs
+# Trash
+.DS_Store
+
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Folders
+/couchnanny/backuptest/
+/backuptest/
+
+# Configs
+/couchdbConfig.json
 
 # Runtime data
 pids
