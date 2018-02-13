@@ -2,8 +2,8 @@ const fs = require('fs')
 const git = require('simple-git/promise')
 const config = require('../config.json').repo
 const couchdbConf = require('../couchdbConfig.json').couchdb
-
 const nano = require('nano')('http://' + couchdbConf.login + ':' + couchdbConf.password + '@' + couchdbConf.host + ':' + couchdbConf.port + '')
+
 let repoDir = config.folder
 let remote = config.source
 

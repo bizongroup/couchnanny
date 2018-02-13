@@ -19,7 +19,7 @@ function _getData (dataName) {
   let db = nano.use(dataName)
   try {
     db.bulk({ docs: obj[dataName] }, function (err, body) {
-            // console.log(body);
+            console.log(body);
     })
   } catch (e) {}
 }

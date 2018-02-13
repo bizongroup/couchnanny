@@ -28,7 +28,6 @@
   "dependencies": {
     "http-monitor": "^0.3.5",
     "nano": "^6.4.2",
-    "node-cron": "^1.2.1",
     "request": "^2.83.0",
     "simple-git": "^1.85.0"
   }
