@@ -55,8 +55,7 @@ function _getAllBases() {
   })
 }
 
-module.exports = function(db) {
+
   _checkRepos()
   _getAllBases()
   _commitChanges()
-}
